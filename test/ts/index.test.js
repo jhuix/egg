@@ -1,31 +1,43 @@
 'use strict';
 
+const assert = require('assert');
 const request = require('supertest');
 const mm = require('egg-mock');
 const runscript = require('runscript');
 const path = require('path');
+const fs = require('fs');
+const mkdirp = require('mz-modules/mkdirp');
+const rimraf = require('mz-modules/rimraf');
 const utils = require('../utils');
 const baseDir = path.join(__dirname, '../fixtures/apps/app-ts');
 
 describe('test/ts/index.test.js', () => {
-  before(function* () {
-    if (process.env.CI) {
-      yield runscript('tsc && npmlink ../../../../', { cwd: baseDir });
-    } else {
-      yield runscript('tsc && npm link ../../../../', { cwd: baseDir });
-    }
+  before(async () => {
+    await runscript(`tsc -p ${baseDir}/tsconfig.json`, { cwd: baseDir });
+    const dest = path.join(baseDir, 'node_modules/egg');
+    await rimraf(dest);
+    await mkdirp(path.dirname(dest));
+    fs.symlinkSync('../../../../../', dest);
   });
 
   describe('compiler code', () => {
-
     afterEach(mm.restore);
     let app;
-    before(function* () {
+    before(async () => {
       app = utils.app('apps/app-ts');
-      yield app.ready();
+      await app.ready();
     });
-    after(function* () {
-      yield app.close();
+    after(async () => {
+      await app.close();
+      assert.deepStrictEqual(app._app.stages, [
+        'configWillLoad',
+        'configDidLoad',
+        'didLoad',
+        'willReady',
+        'didReady',
+        'serverDidReady',
+        'beforeClose',
+      ]);
     });
 
     it('controller run ok', done => {
@@ -36,6 +48,4 @@ describe('test/ts/index.test.js', () => {
         .end(done);
     });
   });
-
 });
-

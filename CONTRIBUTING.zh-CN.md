@@ -60,8 +60,6 @@ $ git commit -m "fix(role): role.use must xxx"
 $ git push origin branch-name
 ```
 
-提交后就可以在 [egg](https://github.com/eggjs/egg/pulls) 创建 Pull Request 了。
-
 由于谁也无法保证过了多久之后还记得多少，为了后期回溯历史的方便，请在提交 MR 时确保提供了以下信息。
 
 1. 需求点（一般关联 issue 或者注释都算）
@@ -136,7 +134,7 @@ BREAKING CHANGE:
   Breaks foo.bar api, foo.baz should be used instead
 ```
 
-查看具体[文档](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit)
+详情请查看具体[文档](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit)。
 
 ## 发布管理
 
@@ -144,7 +142,7 @@ egg 基于 [semver] 语义化版本号进行发布。
 
 ### 分支策略
 
-`master` 分支为当前稳定发布的版本，`next` 分支为下一个开发中的大版本。
+`master` 分支为当前稳定发布的版本，`next` 分支为下一个开发中的大版本。
 
 - 只维护两个版本，除非有安全问题，否则修复只会 patch 到 `master` 和 `next` 分支，其他更新推动上层框架升级到稳定大版本的最新版本。
 - 所有 API 的废弃都需要在当前的稳定版本上 `deprecate` 提示，并保证在当前的稳定版本上一直兼容到新版本的发布。
@@ -172,10 +170,10 @@ egg 基于 [semver] 语义化版本号进行发布。
 
 #### 发布时：
 
-- 将老的稳定版本（master）备份到以当前大版本为名字的分支上（例如 `1.x`），并设置 tag 为 `release-{v}.x`（ v 为当前版本，例如 `release-1.x`）。
+- 将老的稳定版本（master）备份到以当前大版本为名字的分支上（例如 `1.x`），并设置 tag 为 `release-{v}.x`（ v 为当前版本，例如 `release-1.x`）。
 - 将 `next` 分支推送到 `master`，成为新的稳定版本分支，并去除 `next` tag，修改 README 中与分支相关的内容。
 - 发布新的稳定版本到 [npm]，并通知上层框架进行更新。
-- `npm publish` 之前，请先阅读[『我是如何发布一个 npm 包的』]。
+- `npm publish` 之前，请先阅读 [我是如何发布一个 npm 包的]。
 
 上述描述中所有的设置 tag 都是指在 `package.json` 中设置 npm 的 tag。
 
@@ -185,9 +183,9 @@ egg 基于 [semver] 语义化版本号进行发布。
 }
 ```
 
-[semver]: http://semver.org/lang/zh-CN/
-[Release proposal MR]: https://github.com/nodejs/node/pull/4181
+[semver]: https://semver.org/lang/zh-CN/
+[Release Proposal MR]: https://github.com/nodejs/node/pull/4181
 [node CHANGELOG]: https://github.com/nodejs/node/blob/master/CHANGELOG.md
 [1.x milestone]: https://github.com/eggjs/egg/milestone/1
 [npm]: http://npmjs.com/
-[『我是如何发布一个 npm 包的』]: https://fengmk2.com/blog/2016/how-i-publish-a-npm-package
+[我是如何发布一个 npm 包的]: https://fengmk2.com/blog/2016/how-i-publish-a-npm-package
