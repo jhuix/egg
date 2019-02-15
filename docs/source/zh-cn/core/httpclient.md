@@ -5,7 +5,7 @@ title: HttpClient
 
 为此框架基于 [urllib] 内置实现了一个 [HttpClient]，应用可以非常便捷地完成任何 HTTP 请求。
 
-## 通过 app 使用 HttpClient
+## 通过 `app` 使用 HttpClient
 
 框架在应用初始化的时候，会自动将 [HttpClient] 初始化到 `app.httpclient`。
 同时增加了一个 `app.curl(url, options)` 方法，它等价于 `app.httpclient.request(url, options)`。
@@ -25,7 +25,7 @@ module.exports = app => {
 };
 ```
 
-## 通过 Context 使用 HttpClient
+## 通过 `ctx` 使用 HttpClient
 
 框架在 Context 中同样提供了 `ctx.curl(url, options)` 和 `ctx.httpclient`，保持跟 app 下的使用体验一致。
 这样就可以在有 Context 的地方（如在 controller 中）非常方便地使用 `ctx.curl()` 方法完成一次 HTTP 请求。
@@ -738,7 +738,7 @@ $ http_proxy=http://127.0.0.1:8888 npm run dev
 ## 全局 `request` 和 `response` 事件
 
 在企业应用场景，常常会有统一 tracer 日志的需求。
-为了方便在 app 层面统一监听 HttpClient 的请求和响应，我们约定了全局 `request` 和 `response` 事件来暴露这两个时机。
+为了方便在 app 层面统一监听 HttpClient 的请求和响应，我们约定了全局 `request` 和 `response` 来暴露这两个事件。
 
 ```bash
     init options

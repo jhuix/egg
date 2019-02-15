@@ -119,7 +119,7 @@ npx sequelize init:config
 npx sequelize init:migrations
 ```
 
-执行完后会生成 `database/config.json` 文件和 `database/migrations`, `database/seeders`, `app/model` 三个目录，我们修改一下 `database/config.json` 中的内容，将其改成我们项目中使用的数据库配置：
+执行完后会生成 `database/config.json` 文件和 `database/migrations` 目录，我们修改一下 `database/config.json` 中的内容，将其改成我们项目中使用的数据库配置：
 
 ```
 {
@@ -316,7 +316,7 @@ module.exports = app => {
 };
 ```
 
-- 初始化文件 `test/.setup.js`，引入 factory，并确保测试执行完后清理数据，避免被影响
+- 初始化文件 `test/.setup.js`，引入 factory，并确保测试执行完后清理数据，避免被影响。
 
 ```js
 const { app } = require('egg-mock/bootstrap');
@@ -327,7 +327,6 @@ afterEach(async () => {
   // clear database after each test case
   await Promise.all([
     app.model.User.destroy({ truncate: true, force: true }),
-    app.model.Post.destroy({ truncate: true, force: true }),
   ]);
 });
 ```
@@ -414,3 +413,4 @@ describe('test/app/service/users.test.js', () => {
 [Migrations]: http://docs.sequelizejs.com/manual/tutorial/migrations.html
 [factory-girl]: https://github.com/aexmachina/factory-girl
 [eggjs/examples/sequelize]: https://github.com/eggjs/examples/tree/master/sequelize
+[egg-mysql]: https://github.com/eggjs/egg-mysql

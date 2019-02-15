@@ -14,7 +14,7 @@ brew install mysql
 brew service start mysql
 ```
 
-## Init
+## Initialization
 
 Init project by `egg-init`:
 
@@ -65,7 +65,7 @@ exports.sequelize = {
 
 After completing the above configuration, a project using sequelize is initialized. [egg-sequelize] and [sequelize] also support more configuration items, which can be found in their documentation.
 
-## Init Database and Migrations
+## Database and Migrations Initialization
 
 Next, let's temporarily leave the code of the egg project, design and initialize our database. First, we quickly create two databases for development and testing locally using the mysql command:
 
@@ -120,7 +120,7 @@ npx sequelize init:config
 npx sequelize init:migrations
 ```
 
-After the execution, the `database/config.json` file and the `database/migrations`, `database/seeders`, `app/model` directories will be generated. We will modify the contents of `database/config.json`. It was changed to the database configuration used in our project:
+After the execution, the `database/config.json` file and the `database/migrations` directory will be generated. We will modify the contents of `database/config.json`. It was changed to the database configuration used in our project:
 
 ```
 {
@@ -317,7 +317,7 @@ module.exports = app => {
 };
 ```
 
-- Initialize the file `test/.setup.js`, introduce the factory, and ensure that the data is cleaned after the test is executed to avoid being affected.
+- Initialize the file `test/.setup.js`, introduce the factory, and ensure that the data is cleaned after the test is executed to avoid being affected.
 
 ```js
 const { app } = require('egg-mock/bootstrap');
@@ -328,7 +328,6 @@ afterEach(async () => {
   // clear database after each test case
   await Promise.all([
     app.model.User.destroy({ truncate: true, force: true }),
-    app.model.Post.destroy({ truncate: true, force: true }),
   ]);
 });
 ```
@@ -415,3 +414,4 @@ We also provide sequelize boilerplate that integrates the modules [egg-sequelize
 [Migrations]: http://docs.sequelizejs.com/manual/tutorial/migrations.html
 [factory-girl]: https://github.com/aexmachina/factory-girl
 [eggjs/examples/sequelize]: https://github.com/eggjs/examples/tree/master/sequelize
+[egg-mysql]: https://github.com/eggjs/egg-mysql

@@ -1,4 +1,5 @@
-## Title: Code Style Guide
+title: Code Style Guide
+---
 
 Developers are advised to use `egg-init --type=simple showcase` to generate and observe the recommended project structure and configuration.
 
@@ -41,7 +42,7 @@ module.exports = Object.assign(egg, {
 });
 ```
 
-## Private properties & Lazy Initialization
+## Private Properties & Lazy Initialization
 
 * Private properties are mounted with `Symbol`.
 * The description of Symbol follows the rules of jsdoc, describing the mapped class name + attribute name.
