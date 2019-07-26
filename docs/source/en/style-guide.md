@@ -1,12 +1,13 @@
 title: Code Style Guide
 ---
 
-Developers are advised to use `egg-init --type=simple showcase` to generate and observe the recommended project structure and configuration.
+Developers are advised to use `npm init egg --type=simple showcase` to generate and observe the recommended project structure and configuration.
 
 ## Classify
 
+Old Style:
+
 ```js
-// old style
 module.exports = app => {
   class UserService extends app.Service {
     async list() {

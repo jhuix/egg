@@ -26,8 +26,9 @@ For more about this tossing process, please see [[RFC] TypeScript tool support](
 A quick initialization through the boilerplate:
 
 ```bash
-$ npx egg-init --type=ts showcase
-$ cd showcase && npm i
+$ mkdir showcase && cd showcase
+$ npm init egg --type=ts
+$ npm i
 $ npm run dev
 ```
 
@@ -308,7 +309,7 @@ export default plugin;
 ### Lifecycle
 
 ```typescript
-// app/app.ts
+// app.ts
 import { Application, IBoot } from 'egg';
 
 export default class FooBoot implements IBoot {
@@ -404,26 +405,8 @@ What we do is just to do some configs in `package.json`:
 
 ```json
 {
-  "devDependencies": {
-    "egg-ts-helper": "^1"
-  },
-  "scripts": {
-    "dev": "egg-bin dev -r egg-ts-helper/register",
-    "test-local": "egg-bin test -r egg-ts-helper/register",
-    "clean": "ets clean"
-  }
-}
-```
-
-In the latest version of `egg-bin`, we can also support simplify configs of scripts through `egg.require`: 
-
-```json
-{
-  "devDependencies": {
-    "egg-ts-helper": "^1"
-  },
   "egg": {
-    "require": [ "egg-ts-helper/register" ]
+    "declarations": true
   },
   "scripts": {
     "dev": "egg-bin dev",
@@ -466,10 +449,13 @@ Run commands as what you do before, and we've built `Error stacks and coverages`
 ```json
 {
   "name": "showcase",
+  "egg": {
+    "declarations": true
+  },
   "scripts": {
     "test": "npm run lint -- --fix && npm run test-local",
-    "test-local": "egg-bin test -r egg-ts-helper/register",
-    "cov": "egg-bin cov -r egg-ts-helper/register",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
     "lint": "tslint ."
   }
 }
@@ -482,8 +468,11 @@ There's no main difference for debugging in TS, it can reach correct positions t
 ```json
 {
   "name": "showcase",
+  "egg": {
+    "declarations": true
+  },
   "scripts": {
-    "debug": "egg-bin debug -r egg-ts-helper/register",
+    "debug": "egg-bin debug",
     "debug-test": "npm run test-local -- --inspect"
   }
 }
@@ -659,7 +648,7 @@ Here're some questions asked by many people with answers one by one:
 
 `egg-scripts` is the cli for PROD, and we suggest you compiling all the ts to js before running because of robustness and capbility. That's the reason why we don't suggest you using `ts-node` to run the application in PROD.
 
-On the contrary, `ts-node` can reduce the cost of management for compiled files from `tsc`in DEV, and the performance loss can almost be ignored, so `ts-node` is integrated into `egg-bin`. 
+On the contrary, `ts-node` can reduce the cost of management for compiled files from `tsc`in DEV, and the performance loss can almost be ignored, so `ts-node` is integrated into `egg-bin`.
 
 **In summary: Please use `tsc`to compile all ts files into js through `npm run tsc`, and then run `npm start`.**
 

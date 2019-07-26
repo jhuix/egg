@@ -1,9 +1,9 @@
 title: TypeScript
 ---
 
-> [TypeScript](https://www.typescriptlang.org/) is a typed superset of JavaScript that compiles to plain JavaScript.
+> [TypeScript](https://www.typescriptlang.org/) 是 JavaScript 类型的超集，它可以编译成纯 JavaScript。
 
-TypeScript 的静态类型检查，智能提示，IDE 友好性等特性，对于大规模企业级应用，是非常的有价值的。详见：[TypeScript体系调研报告](https://juejin.im/post/59c46bc86fb9a00a4636f939) 。
+TypeScript 的静态类型检查，智能提示，IDE 友好性等特性，对于大规模企业级应用，是非常的有价值的。详见：[TypeScript 体系调研报告](https://juejin.im/post/59c46bc86fb9a00a4636f939) 。
 
 然而，此前使用 TypeScript 开发 Egg ，会遇到一些影响 **开发者体验** 问题：
 
@@ -26,8 +26,9 @@ TypeScript 的静态类型检查，智能提示，IDE 友好性等特性，对�
 通过骨架快速初始化：
 
 ```bash
-$ npx egg-init --type=ts showcase
-$ cd showcase && npm i
+$ mkdir showcase && cd showcase
+$ npm init egg --type=ts
+$ npm i
 $ npm run dev
 ```
 
@@ -307,7 +308,7 @@ export default plugin;
 ### 生命周期（Lifecycle）
 
 ```typescript
-// app/app.ts
+// app.ts
 import { Application, IBoot } from 'egg';
 
 export default class FooBoot implements IBoot {
@@ -403,26 +404,8 @@ declare module 'egg' {
 
 ```json
 {
-  "devDependencies": {
-    "egg-ts-helper": "^1"
-  },
-  "scripts": {
-    "dev": "egg-bin dev -r egg-ts-helper/register",
-    "test-local": "egg-bin test -r egg-ts-helper/register",
-    "clean": "ets clean"
-  }
-}
-```
-
-在最新版本的 egg-bin 中，我们还支持通过配置 `egg.require` 来简化 scripts 配置：
-
-```json
-{
-  "devDependencies": {
-    "egg-ts-helper": "^1"
-  },
   "egg": {
-    "require": [ "egg-ts-helper/register" ]
+    "declarations": true
   },
   "scripts": {
     "dev": "egg-bin dev",
@@ -465,10 +448,13 @@ describe('test/app/service/news.test.js', () => {
 ```json
 {
   "name": "showcase",
+  "egg": {
+    "declarations": true
+  },
   "scripts": {
     "test": "npm run lint -- --fix && npm run test-local",
-    "test-local": "egg-bin test -r egg-ts-helper/register",
-    "cov": "egg-bin cov -r egg-ts-helper/register",
+    "test-local": "egg-bin test",
+    "cov": "egg-bin cov",
     "lint": "tslint ."
   }
 }
@@ -481,9 +467,12 @@ describe('test/app/service/news.test.js', () => {
 ```json
 {
   "name": "showcase",
+  "egg": {
+    "declarations": true
+  },
   "scripts": {
-    "debug": "egg-bin debug -r egg-ts-helper/register",
-    "debug-test": "npm run test-local -- --inspect"
+    "debug": "egg-bin debug",
+    "debug-test": "npm run test-local"
   }
 }
 ```
@@ -653,7 +642,7 @@ export default class NewsService extends Service {
 
 汇集一些有不少人提过的 issue 问题并统一解答。
 
-### 运行 npm start 不会加载 ts 
+### 运行 npm start 不会加载 ts
 
 npm start 运行的是 `egg-scripts start`，而我们只在 egg-bin 中集成了 ts-node，也就是只有在使用 egg-bin 的时候才允许直接运行 ts 。
 

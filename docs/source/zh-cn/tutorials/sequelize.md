@@ -11,17 +11,17 @@ title: Sequelize
 
 ```bash
 brew install mysql
-brew service start mysql
+brew services start mysql
 ```
 
 ## 初始化项目
 
-通过 egg-init 初始化一个项目:
+通过 `npm` 初始化一个项目:
 
 ```bash
-egg-init --type=simple --dir=sequelize-project
-cd sequelize-project
-npm i
+$ mkdir sequelize-project && cd sequelize-project
+$ npm init egg --type=simple
+$ npm i
 ```
 
 安装并配置 [egg-sequelize] 插件（它会辅助我们将定义好的 Model 对象加载到 app 和 ctx 上）和 [mysql2] 模块：
@@ -226,7 +226,7 @@ class UserController extends Controller {
 
   async show() {
     const ctx = this.ctx;
-    ctx.body = await ctx.model.User.findById(toInt(ctx.params.id));
+    ctx.body = await ctx.model.User.findByPk(toInt(ctx.params.id));
   }
 
   async create() {
@@ -240,7 +240,7 @@ class UserController extends Controller {
   async update() {
     const ctx = this.ctx;
     const id = toInt(ctx.params.id);
-    const user = await ctx.model.User.findById(id);
+    const user = await ctx.model.User.findByPk(id);
     if (!user) {
       ctx.status = 404;
       return;
@@ -254,7 +254,7 @@ class UserController extends Controller {
   async destroy() {
     const ctx = this.ctx;
     const id = toInt(ctx.params.id);
-    const user = await ctx.model.User.findById(id);
+    const user = await ctx.model.User.findByPk(id);
     if (!user) {
       ctx.status = 404;
       return;
@@ -337,7 +337,7 @@ afterEach(async () => {
 // test/app/controller/users.test.js
 const { assert, app } = require('egg-mock/bootstrap');
 
-describe('test/app/service/users.test.js', () => {
+describe('test/app/controller/users.test.js', () => {
   describe('GET /users', () => {
     it('should work', async () => {
       // 通过 factory-girl 快速创建 user 对象到数据库中
@@ -404,7 +404,7 @@ describe('test/app/service/users.test.js', () => {
 
 ## 脚手架
 
-我们也提供了 sequelize 的脚手架，集成了文档中提供的 [egg-sequelize], [sequelize-cli] 与 [factory-girl] 等模块。可以通过 `egg-init --type=sequelize` 来基于它快速初始化一个新的应用。
+我们也提供了 sequelize 的脚手架，集成了文档中提供的 [egg-sequelize], [sequelize-cli] 与 [factory-girl] 等模块。可以通过 `npm init egg --type=sequelize` 来基于它快速初始化一个新的应用。
 
 [mysql2]: https://github.com/sidorares/node-mysql2
 [sequelize]: http://docs.sequelizejs.com/

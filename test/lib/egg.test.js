@@ -135,7 +135,7 @@ describe('test/lib/egg.test.js', () => {
 
     it('should read timing data', function* () {
       let json = readJson(path.join(baseDir, `run/agent_timing_${process.pid}.json`));
-      assert(json.length === 32);
+      assert(json.length === 40);
       assert(json[0].name === 'Application Start');
       assert(json[0].pid === process.pid);
 
@@ -168,15 +168,8 @@ describe('test/lib/egg.test.js', () => {
       const baseDir = utils.getFilepath('apps/dumpconfig');
       let json;
 
-      await sleep(100);
-      json = readJson(path.join(baseDir, 'run/application_config.json'));
-      assert(json.config.dynamic === 1);
-      json = readJson(path.join(baseDir, 'run/agent_config.json'));
-      assert(json.config.dynamic === 0);
-
       await app.ready();
 
-      await sleep(100);
       json = readJson(path.join(baseDir, 'run/application_config.json'));
       assert(json.config.dynamic === 2);
       json = readJson(path.join(baseDir, 'run/agent_config.json'));
@@ -272,7 +265,7 @@ describe('test/lib/egg.test.js', () => {
     after(() => app.close());
 
     // use it to record create coverage codes time
-    it('before: should cluster app ready', () => {
+    before('before: should cluster app ready', () => {
       app = utils.cluster('apps/app-throw');
       app.coverage(true);
       return app.ready();
@@ -346,7 +339,7 @@ describe('test/lib/egg.test.js', () => {
     });
   });
 
-  describe('egg-ready', () => {
+  describe.skip('egg-ready', () => {
     let app;
     before(() => {
       app = utils.app('apps/demo');
@@ -377,6 +370,7 @@ describe('test/lib/egg.test.js', () => {
     it('should create anonymous context', async () => {
       let ctx = app.createAnonymousContext();
       assert(ctx);
+      assert(ctx.host === '127.0.0.1');
       ctx = app.agent.createAnonymousContext();
       assert(ctx);
     });
